@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espanha - Dia das Nações</title>
+    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/8603/8603600.png">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --vermelho: #AA151B;
+            --amarelo: #F1BF00;
+            --fundo-creme: #FFF9F0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; background-color: var(--fundo-creme); color: #333; overflow-x: hidden; }
+
+        /* CAPA - HERO (Apenas em História) */
+        #capa-hero {
+            height: 100vh;
+            background: linear-gradient(180deg, #d66161 0%, #f2bb66 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 20px;
+        }
+        #capa-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(50px, 10vw, 80px); font-weight: 700; }
+        #capa-hero p { font-size: clamp(16px, 4vw, 20px); font-weight: 300; margin-top: 10px; }
+
+        /* NAVEGAÇÃO */
+        nav {
+            display: flex;
+            background-color: var(--vermelho);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            min-height: 60px;
+        }
+        nav button {
+            flex: 1;
+            border: none;
+            background-color: var(--vermelho);
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            padding: 15px 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        nav button.active { background-color: var(--amarelo); color: black; }
+
+        /* SEÇÕES */
+        section { padding: 40px 5%; display: none; max-width: 1200px; margin: auto; }
+        section.active { display: block; animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        h2 { font-family: 'Playfair Display', serif; color: var(--vermelho); font-size: 32px; margin: 30px 0 20px 0; }
+
+        /* CARDS DE TEXTO COM EFEITO DE BORDA AMARELA */
+        .card-texto {
+            background: white;
+            padding: 20px 30px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 0px solid transparent;
+        }
+        .card-texto:hover, .card-texto:active {
+            border-left: 10px solid var(--amarelo); /* Efeito do seu print */
+            transform: translateX(10px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+        }
+
+        /* GRID CIDADES */
+        .grid-cidades { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
+        .card-cidade { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.08); cursor: pointer; transition: 0.3s; }
+        .card-cidade:hover { transform: translateY(-5px); }
+        .card-cidade .img-box { width: 100%; height: 220px; background-color: #eee; }
+        .card-cidade img { width: 100%; height: 100%; object-fit: cover; }
+        .card-cidade .info-bar { padding: 20px; font-weight: 600; font-size: 18px; text-align: center; }
+
+        /* MAPA */
+        .mapa-container {
+            width: 100%;
+            height: 450px;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 8px solid white;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+
+        /* MODAL */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
+        .modal-card { background: white; width: 100%; max-width: 600px; border-radius: 25px; overflow: hidden; position: relative; animation: zoom 0.3s ease; }
+        @keyframes zoom { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .modal-card img { width: 100%; height: 300px; object-fit: cover; }
+        .modal-info { padding: 30px; text-align: center; }
+        .modal-info h3 { font-size: 26px; color: var(--vermelho); margin-bottom: 10px; }
+        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 35px; color: white; cursor: pointer; text-shadow: 0 0 10px #000; z-index: 10; }
+
+        /* RODAPÉ */
+        footer { background: var(--vermelho); color: white; text-align: center; padding: 50px 20px; margin-top: 50px; }
+        .footer-btns { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin: 30px 0; }
+        .footer-btns button { background: var(--amarelo); border: none; padding: 12px 25px; border-radius: 30px; font-weight: bold; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <div id="capa-hero">
+        <h1>Espanha</h1>
+        <p>História, cultura e gastronomia em um só lugar</p>
+    </div>
+
+    <nav id="navbar">
+        <button onclick="changeTab('historia')" id="btn-historia" class="active">História</button>
+        <button onclick="changeTab('cidades')" id="btn-cidades">Cidades</button>
+        <button onclick="changeTab('cardapio')" id="btn-cardapio">Cardápio</button>
+    </nav>
+
+    <section id="historia" class="active">
+        <h2>História da Espanha</h2>
+        <div class="card-texto" onclick="openModal('Iberos e Celtas', 'Os primeiros habitantes da península deixaram um legado de arte e fortificações.', 'povosantigos.jfif')">Povos antigos como iberos e celtas foram os primeiros habitantes da região.</div>
+        <div class="card-texto" onclick="openModal('Império Romano', 'Os romanos construíram aquedutos e estradas que ainda podem ser vistos hoje.', 'imperioromano.jfif')">O Império Romano trouxe desenvolvimento urbano e cultural.</div>
+        <div class="card-texto" onclick="openModal('Al-Andalus', 'A era muçulmana trouxe avanços incríveis na ciência e arquitetura.', 'alandalus.jpg')">O domínio muçulmano criou o período de Al-Andalus com avanços científicos.</div>
+        <div class="card-texto" onclick="openModal('A Reconquista', 'Em 1492, a unificação da Espanha e a descoberta da América mudaram o mundo.', 'unificacaoespanha.jpg')">A Reconquista terminou em 1492, junto com a viagem de Colombo.</div>
+        <div class="card-texto" onclick="openModal('Potência Mundial', 'Durante séculos, a Espanha foi um dos maiores impérios da história.', 'imperioespanhol.jpg')">A Espanha foi uma grande potência mundial nos séculos XVI e XVII.</div>
+        <div class="card-texto" onclick="openModal('Democracia', 'Após tempos de guerra, a Espanha é hoje uma democracia moderna e vibrante.', 'ditaduraespanhola.jpg')">No século XX houve guerra civil e ditadura até a democracia atual.</div>
+
+        <h2>Cultura</h2>
+        <div class="card-texto" onclick="openModal('Convivência', 'Os espanhóis amam a vida social e as longas conversas após as refeições.', 'convivenciasocial.jpg')">A cultura espanhola valoriza muito a convivência social, com encontros em praças, bares e refeições longas.</div>
+        <div class="card-texto" onclick="openModal('Futebol', 'Real Madrid e Barcelona são símbolos globais da paixão espanhola.', 'futebol.jpg')">O futebol é uma das maiores paixões da Espanha, com clubes mundialmente famosos.</div>
+        <div class="card-texto" onclick="openModal('Flamenco', 'Uma arte declarada Patrimônio da Humanidade, cheia de emoção.', 'flamenco.jpg')">O flamenco é uma dança e estilo musical típico, marcado por palmas e violão.</div>
+        <div class="card-texto" onclick="openModal('Touradas', 'Uma tradição secular que ainda resiste em diversas arenas do país.', 'touradas.jpg')">As touradas fazem parte da tradição em algumas regiões, embora controversas hoje.</div>
+        <div class="card-texto" onclick="openModal('La Tomatina', 'A maior guerra de comida do mundo acontece anualmente em Buñol.', 'latomatina.jpg')">A La Tomatina é uma famosa festa onde milhares participam de uma guerra de tomates.</div>
+        <div class="card-texto" onclick="openModal('San Fermín', 'A adrenalina de correr com touros pelas ruas de Pamplona.', 'tourosempamplona.jpg')">San Fermín é conhecida pela corrida de touros pelas ruas, uma tradição intensa.</div>
+
+        <h2>Localização</h2>
+        <div class="mapa-container">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3101455.5428613476!2d-6.840424578502573!3d40.463667000000004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xc42aa5b47a7fd0d%3A0xa6eca4840768a3ec!2sEspanha!5e0!3m2!1spt-PT!2sbr!4v1715000000000!5m2!1spt-PT!2sbr" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+    </section>
+
+    <section id="cidades">
+        <h2>Cidades Principais</h2>
+        <div class="grid-cidades">
+            <div class="card-cidade" onclick="openModal('Barcelona', 'A cidade da arquitetura modernista e praias.', 'barcelona.jpg')">
+                <div class="img-box"><img src="barcelona.jpg"></div>
+                <div class="info-bar">Barcelona</div>
+            </div>
+            <div class="card-cidade" onclick="openModal('Madrid', 'A capital real, cheia de arte e história.', 'madrid.jpg')">
+                <div class="img-box"><img src="madrid.jpg"></div>
+                <div class="info-bar">Madrid</div>
+            </div>
+            <div class="card-cidade" onclick="openModal('Valência', 'A cidade das artes, das ciências e da paella.', 'valencia.jpg')">
+                <div class="img-box"><img src="valencia.jpg"></div>
+                <div class="info-bar">Valência</div>
+            </div>
+            <div class="card-cidade" onclick="openModal('Ilhas Baleares', 'Ibiza e Mallorca: o paraíso do Mediterrâneo.', 'ibiza.jpg')">
+                <div class="img-box"><img src="ibiza.jpg"></div>
+                <div class="info-bar">Ilhas Baleares</div>
+            </div>
+            <div class="card-cidade" onclick="openModal('Ilhas Canárias', 'Belezas vulcânicas em pleno oceano.', 'ilhascanarias.jpg')">
+                <div class="img-box"><img src="ilhascanarias.jpg"></div>
+                <div class="info-bar">Ilhas Canárias</div>
+            </div>
+            <div class="card-cidade" onclick="openModal('Toledo', 'A cidade medieval das três culturas.', 'toledo.jpg')">
+                <div class="img-box"><img src="toledo.jpg"></div>
+                <div class="info-bar">Toledo</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="cardapio">
+        <h2>Gastronomia Completa</h2>
+        <div class="card-texto" onclick="openModal('Paella', 'O prato de arroz mais famoso da Espanha.', 'paella.jpg')">Paella</div>
+        <div class="card-texto" onclick="openModal('Tortilla Española', 'Clássica omelete de batata.', 'tortillarspanola.jpg')">Tortilla Española</div>
+        <div class="card-texto" onclick="openModal('Churros', 'Servidos com chocolate quente denso.', 'churros.jpg')">Churros</div>
+        <div class="card-texto" onclick="openModal('Jamón Ibérico', 'O presunto curado mais nobre do mundo.', 'jamomiberico.jfif')">Jamón Ibérico</div>
+        <div class="card-texto" onclick="openModal('Gazpacho', 'Sopa fria de tomate refrescante.', 'gazpacho.jfif')">Gazpacho</div>
+        <div class="card-texto" onclick="openModal('Croquetas', 'Bolinnhos cremosos irresistíveis.', 'croquetas.jfif')">Croquetas</div>
+        <div class="card-texto" onclick="openModal('Patatas Bravas', 'Batatas fritas com molho picante.', 'patatasbravas.jpg')">Patatas Bravas</div>
+        <div class="card-texto" onclick="openModal('Pulpo a la Gallega', 'Polvo cozido com páprica e azeite.', 'pulpoalagallega.jpg')">Pulpo a la Gallega</div>
+        <div class="card-texto" onclick="openModal('Fabada Asturiana', 'Ensopado rico de feijão branco.', 'fabadaasturiana.jpg')">Fabada Asturiana</div>
+        <div class="card-texto" onclick="openModal('Crema Catalana', 'Sobremesa com crosta de açúcar queimado.', 'cremacatalana.jpg')">Crema Catalana</div>
+        <div class="card-texto" onclick="openModal('Pisto', 'O ratatouille espanhol com legumes.', 'pisto.jpg')">Pisto</div>
+        <div class="card-texto" onclick="openModal('Empanadas', 'Massas recheadas assadas tradicionais.', 'empanadas.jpg')">Empanadas</div>
+    </section>
+
+    <div id="meuModal" class="modal" onclick="closeModal()">
+        <span class="close-btn" onclick="closeModal()">×</span>
+        <div class="modal-card" onclick="event.stopPropagation()">
+            <img id="imgModal" src="">
+            <div class="modal-info">
+                <h3 id="tituloModal"></h3>
+                <p id="descModal"></p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <h3>Espanha</h3>
+        <div class="footer-btns">
+            <button onclick="changeTab('historia')">História</button>
+            <button onclick="changeTab('cidades')">Cidades</button>
+            <button onclick="changeTab('cardapio')">Gastronomia</button>
+        </div>
+        <p>© 2026 - Dia das Nações ETEC Raposo Tavares | Desenvolvido por Gabriel Henrique Garcia</p>
+    </footer>
+
+    <script>
+        function changeTab(tabId) {
+            document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            document.getElementById('btn-' + tabId).classList.add('active');
+
+            const hero = document.getElementById('capa-hero');
+            if (tabId === 'historia') {
+                hero.style.display = 'flex';
+                window.scrollTo({top: 0, behavior: 'smooth'});
+            } else {
+                hero.style.display = 'none';
+                window.scrollTo({top: 0});
+            }
+        }
+
+        function openModal(titulo, desc, img) {
+            document.getElementById('tituloModal').innerText = titulo;
+            document.getElementById('descModal').innerText = desc;
+            document.getElementById('imgModal').src = img;
+            document.getElementById('meuModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('meuModal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
